@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">Default Title</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png}" />
+  <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   <aside th:replace="~{themes :: sidebar}">
+   	
+   </aside>
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+     <header th:replace="~{themes :: header}">
+     
+     </header>
+      <div class="container-fluid">
+      <div class="row">
+      	<p class="bg-white fw-bold text-success p-3 text-center" th:text="${message}"></p>
+      </div>
+        <div class="row">
+        
+        <div class="col-lg-4">
+        
+          <div class="card">
+            <div class="card-body">
+             	<h3>Welcome <span th:text="${user.fullName}"></span></h3>
+             	<img th:src="@{'/uploads/' + ${user.profilePhoto}}" alt="Profile Photo" width="200">
+            </div>
+          </div>
+        </div>
+        
+         <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+             	<table class="table">
+             		<tr>
+             			<th>Email Id: </th>
+             			<td th:text="${user.email}"></td>
+             		</tr>
+             		<tr>
+             			<th>Phone Number: </th>
+             			<td th:text="${user.phone}"></td>
+             		</tr>
+             	</table>
+            </div>
+          </div>
+        </div>  
+      </div>
+    </div>
+  	<div th:replace="~{themes::footer}">
+        
+     </div>
+  </div>
+ <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/libs/apexcharts/dist/apexcharts.min.js}"></script>
+  <script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+  <script th:src="@{/assets/js/sidebarmenu.js}"></script>
+  <script th:src="@{/assets/js/app.min.js}"></script>
+  <script th:src="@{/assets/js/dashboard.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

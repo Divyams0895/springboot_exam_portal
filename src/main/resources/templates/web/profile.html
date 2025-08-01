@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    
+    <!-- Favicons -->
+  <link th:href="@{/img/favicon.png}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+   <style>
+    :root {
+        --accent-color: [[${settings.themeColor}]];
+    }
+</style>
+    
+</head>
+<body>
+
+
+  
+
+  <main class="main exam-page">
+
+    <div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar">
+        	<div class="text-center">
+        		<a th:href="@{/}" class="logo d-flex align-items-center me-auto">
+			        <img th:src="@{/img/think-track-logo.png}" alt="Think Track" width="200">
+			      </a>
+        		
+        	</div>
+            <div class="text-center profile-card">
+                <img th:src="@{'/uploads/' + ${student.profilePhoto}}" alt="Profile Photo">
+                <p class="mt-2" th:text="${student.fullName}">Username</p>
+            </div>
+            <hr>
+           <a href="#" class="active" onclick="showTab('viewProfile')">
+			  <i class="fas fa-user"></i> View Profile
+			</a>
+			<a href="#" onclick="showTab('editProfile')">
+			  <i class="fas fa-edit"></i> Edit Profile
+			</a>
+			<a href="#" onclick="showTab('changePassword')">
+			  <i class="fas fa-key"></i> Change Password
+			</a>
+			<a href="#" onclick="showTab('changePhoto')">
+			  <i class="fas fa-image"></i> Change Profile Picture
+			</a>
+			<a href="#" onclick="showTab('examResults')">
+			  <i class="fas fa-chart-line"></i> My Exams &amp; Results
+			</a>
+		<div class="logout-container">
+            <form class="mt-2" th:action="@{/logout}" method="post">
+			    <button class="btn btn-danger" type="submit">Logout</button>
+			</form>
+        </div>
+       </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 p-4">
+            <h4 class="d-inline-block">Welcome to your dashboard</h4>
+            <a th:href="@{/}">
+			    <button class="btn btn-primary float-end ms-2">Home</button>
+			</a>
+			<a th:href="@{/exams}">
+			    <button class="btn btn-success float-end">View Exams</button>
+			</a>
+            <hr>
+
+		  <div id="viewProfile" class="tab-content container mt-4">
+		    <div class="card shadow-sm border-0">
+		        <div class="card-header bg-primary text-white">
+		            <h5 class="mb-0 text-white"><i class="fas fa-user-circle me-2"></i>Personal Information</h5>
+		        </div>
+		        <div class="card-body">
+		            <div class="row mb-2">
+		                <div class="col-md-6">
+		                    <p><i class="fas fa-user me-2 text-secondary"></i><strong>Name:</strong>
+		                        <span th:text="${student.fullName}"></span></p>
+		                </div>
+		                <div class="col-md-6">
+		                    <p><i class="fas fa-envelope me-2 text-secondary"></i><strong>Email:</strong>
+		                        <span th:text="${student.user.username}"></span></p>
+		                </div>
+		            </div>
+		            <div class="row mb-2">
+		                <div class="col-md-6">
+		                    <p><i class="fas fa-phone me-2 text-secondary"></i><strong>Phone:</strong>
+		                        <span th:text="${student.phone}"></span></p>
+		                </div>
+		                
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+
+      <div id="editProfile" class="tab-content container mt-4" style="display:none;">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0 text-white"><i class="fas fa-edit me-2"></i>Edit Profile</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/profile/update}" method="post">
+                   <input type="hidden" name="id" th:value="${student.id}">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input class="form-control" name="fullname" th:value="${student.fullName}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input class="form-control" name="email" th:value="${student.user.username}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input class="form-control" name="phone" th:value="${student.phone}" />
+                    </div>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="changePassword" class="tab-content container mt-4" style="display:none;">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0 text-white"><i class="fas fa-key me-2"></i>Change Password</h5>
+            </div>
+            <div class="card-body">
+                
+                 <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                 <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                <form th:action="@{/profile/change-password}" method="post">
+                
+                    <div class="mb-3">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" name="currentPassword" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">New Password</label>
+                        <input type="password" name="newPassword" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </form>
+            </div>
+           </div>
+        </div>
+
+            <div id="changePhoto" class="tab-content container mt-4" style="display:none;">
+                <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0 text-white"><i class="fas fa-image me-2"></i>Change Profile Picture</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/profile/change-photo}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${student.id}">
+                    <div class="mb-3">
+                        <input type="file" name="profileImage" class="form-control" />
+                    </div>
+                    
+                    <div class="mb-3" th:if="${student.profilePhoto != null}">
+                    <input type="hidden" name="existingImage" th:value="${student.profilePhoto}">
+                    <img th:src="@{'/uploads/' + ${student.profilePhoto}}" alt="Profile Photo" width="150" class="img-thumbnail">
+                </div>
+                    <button type="submit" class="btn btn-secondary">Upload</button>
+                </form>
+            </div>
+          </div>
+          </div>
+
+            <div id="examResults" class="tab-content container mt-4" style="display:none;">
+                <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0 text-white"><i class="fas fa-chart-line me-2"></i>My Exams &amp; Results</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                        	<th>Sl No.</th>
+                        	<th>Subject</th>
+                            <th>Exam Title</th>
+                            <th>Date</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     <tr th:each="result,iterStat : ${examResults}">
+                     		<td th:text="${iterStat.index + 1}"></td>
+                     		<td th:text="${result.exam.subject.subjectName}">Sample Subject</td>
+                            <td th:text="${result.exam.title}">Sample Exam</td>
+                            <td th:text="${#temporals.format(result.submittedAt, 'dd MMM yyyy')}"></td>
+                            <td th:text="${result.score}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    
+</div>
+
+  </main>
+
+  
+
+
+<script>
+    function showTab(id) {
+        // Hide all tab content sections
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.style.display = 'none';
+        });
+
+        // Show the selected tab
+        const targetTab = document.getElementById(id);
+        if (targetTab) {
+            targetTab.style.display = 'block';
+        }
+
+        // Remove .active class from all sidebar links
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Add .active class to the clicked link
+        event.target.classList.add('active');
+    }
+</script>
+
+<!-- Vendor JS Files -->
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/php-email-form/validate.js}"></script>
+  <script th:src="@{/vendor/aos/aos.js}"></script>
+  <script th:src="@{/vendor/glightbox/js/glightbox.min.js}"></script>
+  <script th:src="@{/vendor/swiper/swiper-bundle.min.js}"></script>
+
+  <!-- Main JS File -->
+  <script th:src="@{/js/main.js}"></script>
+
+</body>
+</html>

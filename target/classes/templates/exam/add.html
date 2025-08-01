@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title th:text="${title}">Default Title</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
+  <link rel="stylesheet" th:href="@{/node_modules/simplebar/dist/simplebar.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   <aside th:replace="~{themes :: sidebar}">
+    
+   </aside>
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+     <header th:replace="~{themes :: header}">
+     
+     </header>
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4" th:text="${exam.id < 0} ? 'Add Exam' : 'Edit Exam'">Add Exam</h5>
+            <div class="card">
+              <div class="card-body">
+                 <form th:action="@{${exam.id} != null and ${exam.id} > 0 ? '/exam/update/'+${exam.id} : '/exam/save'}"
+          th:object="${exam}" method="post" class="border p-4 shadow-sm rounded">
+
+			        <!-- Hidden ID field for edit -->
+			        <input type="hidden" th:field="*{id}" />
+			
+			        <div class="mb-3">
+			            <label for="title" class="form-label">Exam Title</label>
+			            <input type="text" id="title" class="form-control" th:field="*{title}" placeholder="Enter exam title" required />
+			        </div>
+			
+			        <div class="mb-3">
+			            <label for="subjectSelect" class="form-label">Select Subject</label>
+			            <select id="subjectSelect" class="form-select" name="subject.id" required>
+                            <option value="" disabled selected>Select a subject</option>
+                            <option th:each="subject : ${subjects}" th:value="${subject.id}" 
+                            		th:text="${subject.subjectName}" 
+                            		th:selected="${exam.subject != null} ? ${subject.id} == ${exam.subject.id} : false"></option>
+                        </select>
+			        </div>
+			        <div class="mb-3">
+			            <label>Difficulty Level</label>
+						<select id="difficulty" name="difficulty" th:field="*{difficulty}" class="form-select">
+						  <option value="">Select Difficulty</option>
+						  <option value="easy">Easy</option>
+						  <option value="medium">Medium</option>
+						  <option value="hard">Hard</option>
+						</select>
+
+			        </div>
+			
+			        <div class="mb-3">
+			            <label class="form-label">Select Questions</label>
+			            <div id="questionList">
+			                <!-- Questions will be loaded here via JS -->
+			            </div>
+			        </div>
+					 <div class="mb-3">
+			            <label for="duration" class="form-label">Exam Duration</label>
+			            <input type="text" id="duration" class="form-control" th:field="*{duration}" placeholder="Duration in minutes" required />
+			        </div>
+			        <div class="mb-3">
+			            <label for="status" class="form-label">Status</label>
+			            <select id="status" class="form-select" th:field="*{status}" required>
+			                <option value="1">Active</option>
+			                <option value="0">Inactive</option>
+			            </select>
+			        </div>
+			
+			        <div class="text-end">
+			            <button type="submit" class="btn btn-primary"
+			                    th:text="${exam.id>0} ? 'Update Exam' : 'Create Exam'"></button>
+			        </div>
+			    </form>
+                 
+                
+                
+              </div>
+            </div>
+            
+          </div>
+        </div>
+         <div th:replace="~{themes::footer}">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Pass selected question IDs from backend -->
+<script th:inline="javascript">
+/*<![CDATA[*/
+let selectedQuestionIds = /*[[${selectedQuestionIds}]]*/ [];
+
+let isEdit = /*[[${exam.id} != null]]*/ false;
+/*]]>*/
+</script>
+
+
+<script>
+    const subjectSelect = document.getElementById("subjectSelect");
+    const difficultySelect = document.getElementById("difficulty");
+
+    function loadQuestions(subjectId, difficulty) {
+        if (!subjectId || !difficulty) return;
+
+        fetch(`/exam/questions/${subjectId}/${difficulty}`)
+            .then(response => response.json())
+            .then(data => {
+                const questionList = document.getElementById("questionList");
+                questionList.innerHTML = "";
+
+                data.forEach(q => {
+                    const isChecked = selectedQuestionIds && selectedQuestionIds.includes(q.question_id);
+                    const checkbox = `
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="selectedQuestionIds"
+                                   value="${q.question_id}" id="q${q.question_id}" ${isChecked ? 'checked' : ''}>
+                            <label class="form-check-label" for="q${q.question_id}">${q.question_text}</label>
+                        </div>`;
+                    questionList.innerHTML += checkbox;
+                });
+            });
+    }
+
+    function handleFilterChange() {
+        const subjectId = subjectSelect.value;
+        const difficulty = difficultySelect.value;
+        loadQuestions(subjectId, difficulty);
+    }
+
+    subjectSelect.addEventListener("change", handleFilterChange);
+    difficultySelect.addEventListener("change", handleFilterChange);
+
+    // Auto-load questions in edit mode
+    window.addEventListener("DOMContentLoaded", () => {
+        if (typeof isEdit !== 'undefined' && isEdit && subjectSelect.value && difficultySelect.value) {
+            loadQuestions(subjectSelect.value, difficultySelect.value);
+        }
+    });
+</script>
+
+  <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+  <script th:src="@{/assets/js/sidebarmenu.js}"></script>
+  <script th:src="@{/assets/js/app.min.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js}"></script>
+
+</body>
+
+</html>

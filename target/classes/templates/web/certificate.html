@@ -1,0 +1,15 @@
+<div th:fragment="certificateFragment">
+    <div style="padding:20px; border:2px solid #444; text-align:center;">
+        <h2>Certificate of Achievement</h2>
+        <p>This certifies that</p>
+        <h3 th:text="${student.fullName}"></h3>
+        <p>has successfully completed the exam</p>
+        <h5>
+        	<span th:text="${result.subject.subjectName}"></span> 
+        	<span th:text="${exam.title}"></span>
+        </h5>
+        <p>with a score of <span th:text="${result.correctAnswers}"></span> /
+           <span th:text="${result.totalQuestions}"></span></p>
+        <p>Date: <span th:text="${#temporals.format(result.submittedAt,'dd MMM yyyy')}"></span></p>
+    </div>
+</div>

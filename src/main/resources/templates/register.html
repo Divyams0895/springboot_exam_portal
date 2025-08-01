@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Online Exam Portal | Student Registration</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
+  <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <div
+      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-md-8 col-lg-6 col-xxl-4">
+            <div class="card mb-0">
+              <div class="card-body">
+                <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                  <img th:src="@{/img/think-track-logo.png}" alt="Think Track">
+                </a>
+                <h3 class="text-center mb-2">Student Registration</h3>
+                
+                <form method="POST" th:action="@{/register}" th:object="${studentDto}" enctype="multipart/form-data">
+                  <div class="mb-3">
+                    <label for="exampleInputtext1" class="form-label">Full Name</label>
+                    <input type="text" th:field="*{fullName}" class="form-control" id="exampleInputtext1" aria-describedby="textHelp">
+                  </div>
+                   <div class="mb-3">
+                    <label for="exampleInputtext2" class="form-label">Phone Number</label>
+                    <input type="text" th:field="*{phone}" class="form-control" id="exampleInputtext2" aria-describedby="textHelp">
+                  </div>
+                   <div class="mb-3">
+					    <label for="profilePhoto" class="form-label">Profile Photo</label>
+					    <input type="file" name="profilePhoto" class="form-control" id="profilePhoto">
+				</div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email Address</label>
+                    <input type="email" th:field="*{username}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                  </div>
+                  <div class="mb-4">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" th:field="*{password}" class="form-control" id="exampleInputPassword1">
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4">Sign Up</button>
+                  <div class="d-flex align-items-center justify-content-center">
+                    <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
+                    <a class="text-primary fw-bold ms-2" href="/login">Sign In</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

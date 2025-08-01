@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Online Exam Portal</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link th:href="@{/img/favicon.png}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <style>
+    :root {
+        --accent-color: [[${settings.themeColor}]];
+    }
+</style>
+
+</head>
+
+<body class="index-page">
+
+  <header th:replace="~{web/templates::header}">
+  
+  </header>
+  
+
+  <main class="main exam-page">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <div class="hero-bg">
+        <img th:src="@{/img/exam-banner.png}" alt="">
+      </div>
+     
+    </section><!-- /Hero Section -->
+		
+
+    <section id="services" class="services section light-background w-50 d-block m-auto border border-rounded">
+		<div class="container">
+		     <h2><span th:text="${exam.subject.subjectName}"></span>&nbsp;<span th:text="${exam.title}"></span>&nbsp;Exam</h2>
+		<ul class="lh-3">
+            <li>This is an online quiz to test your knowledge of <b th:text="${exam.subject.subjectName}">Subject</b>.</li>
+            <li>This Online Test is useful for <b> competitive exams</b>.</li>
+            <li><b>Multiple answer choices</b> are given for each question.</li>
+            <li>You can view your <b>result</b> after completing the test.</li>
+            <li>There are <b th:text="${totalQuestions}">X</b> questions in the test.</li>
+            <li><b>No negative marking</b> for wrong answers.</li>
+            <li th:if="${exam.duration > 0}">Time limit: <b th:text="${exam.duration}">0</b> minutes.</li>
+        </ul>
+        <a th:href="@{/exam/{id}/start(id=${exam.id})}" class="btn btn-primary">Start Test</a>
+        
+		</div>
+    </section>
+   
+  </main>
+
+  <footer th:replace="~{web/templates::footer}">
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/php-email-form/validate.js}"></script>
+  <script th:src="@{/vendor/aos/aos.js}"></script>
+  <script th:src="@{/vendor/glightbox/js/glightbox.min.js}"></script>
+  <script th:src="@{/vendor/swiper/swiper-bundle.min.js}"></script>
+
+  <!-- Main JS File -->
+  <script th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

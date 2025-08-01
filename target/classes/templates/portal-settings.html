@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">Default Title</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png}" />
+  <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   <aside th:replace="~{themes :: sidebar}">
+   	
+   </aside>
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+     <header th:replace="~{themes :: header}">
+     
+     </header>
+      <div class="container-fluid">
+        
+        <div class="card">
+        <div class="card-header">
+        	<h3 class="card-titile">Portal Settings</h3>
+        </div>
+        <div class="card-body">
+        	<form th:action="@{/settings/update}" method="post" enctype="multipart/form-data" th:object="${settings}">
+				<div class="row">
+				    <div class="mb-3 col-6">
+				            <label for="portalName" class="form-label">Portal Name</label>
+				            <input id="portalName" class="form-control" type="text" th:field="*{portalName}" />
+				        </div>
+				        <div class="mb-3 col-6">
+				            <label for="contactEmail" class="form-label">Contact Email</label>
+				            <input type="email" id="contactEmail" class="form-control" th:field="*{contactEmail}" />
+				        </div>
+				    </div>
+				    <div class="row">
+				        <div class="col-6 mb-3">
+				            <label for="themeColor" class="form-label">Select Theme Color</label>
+				            <input type="color" id="themeColor" class="form-control" th:field="*{themeColor}" />
+				        </div>
+				        
+				        <div class="col-6 mb-3">
+				            <label for="footerText" class="form-label">Footer Text</label>
+				            <input type="text" id="footerText" class="form-control" th:field="*{footerText}" />
+				        </div>
+				        <div class="mb-3 col-6">
+						    <label for="logo" class="form-label">Upload Logo</label>
+						    <input type="file" id="logo" class="form-control" name="logoFile" />
+						    
+						    <!-- Preserve existing logo -->
+						    <input type="hidden" th:field="*{logo}" />
+						
+						    <div th:if="*{logo != null}">
+						        <img th:src="@{'/uploads/' + *{logo}}" style="width: 100px;" />
+						    </div>
+						</div>
+
+				    </div>
+				    <button type="submit" class="btn btn-primary w-20 py-8 fs-4 mb-4 float-end">Save Settings</button>
+				</form>
+        </div>
+               
+  
+      </div>
+    </div>
+  	<div th:replace="~{themes::footer}">
+        
+     </div>
+  </div>
+ <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/libs/apexcharts/dist/apexcharts.min.js}"></script>
+  <script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+  <script th:src="@{/assets/js/sidebarmenu.js}"></script>
+  <script th:src="@{/assets/js/app.min.js}"></script>
+  <script th:src="@{/assets/js/dashboard.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>

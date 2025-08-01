@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Online Exam Portal</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link th:href="@{/img/favicon.png}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <style>
+    :root {
+        --accent-color: [[${settings.themeColor}]];
+    }
+</style>
+ <script>
+        let minutes = [[${duration}]];
+        let seconds = 0;
+        let timerInterval = setInterval(() => {
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(timerInterval);
+                    window.location.href = '/exam/submit';
+                } else {
+                    minutes--;
+                    seconds = 59;
+                }
+            } else {
+                seconds--;
+            }
+            document.getElementById('timer').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    </script>
+</head>
+<body>
+<header th:replace="~{web/templates::header}">
+  
+  </header>
+  
+
+  <main class="main exam-page">
+
+     <!-- Hero Section -->
+    <section id="hero" class="hero section">
+      <div class="hero-bg">
+        <img th:src="@{/img/hero-bg-light.webp}" alt="">
+      </div>
+      
+
+    </section><!-- /Hero Section -->
+		
+    <!-- Services Section -->
+    <section id="services" class="services section light-background">
+		<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Online Exam</h4>
+        <div class="fw-bold text-danger">Time Left: <span id="timer"></span></div>
+    </div>
+
+    <div id="questionArea" th:include="~{web/question-fragment :: questionContent}"></div>
+</div>
+
+
+    </section><!-- /Services Section -->
+
+  </main>
+
+  <footer th:replace="~{web/templates::footer}">
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/php-email-form/validate.js}"></script>
+  <script th:src="@{/vendor/aos/aos.js}"></script>
+  <script th:src="@{/vendor/glightbox/js/glightbox.min.js}"></script>
+  <script th:src="@{/vendor/swiper/swiper-bundle.min.js}"></script>
+
+  <!-- Main JS File -->
+  <script th:src="@{/js/main.js}"></script>
+  
+
+</body>
+
+</html>

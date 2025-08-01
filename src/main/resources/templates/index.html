@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">Default Title</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png}" />
+  <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   <aside th:replace="~{themes :: sidebar}">
+   	
+   </aside>
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+     <header th:replace="~{themes :: header}">
+     
+     </header>
+      <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card box1">
+                    <div class="card-body">
+                    	<h3 class="card-title text-white">Subjects</h3>
+                        <div class="d-inline-block count">
+                            <h2 class="text-white" th:text="${subjectCount}">10</h2>
+                         </div>
+                        <span class="float-right display-5 opacity-5 text-white"><i class="fa fa-book"></i></span>
+                     </div>
+                </div>
+            </div>
+        <div class="col-lg-3">
+          <div class="card box2">
+            <div class="card-body">
+                <h3 class="card-title text-white">Exams</h3>
+                <div class="d-inline-block count">
+                    <h2 class="text-white" th:text="${examCount}">25</h2>
+                    
+                </div>
+                <span class="float-right display-5 opacity-5 text-white"><i class="fa fa-pencil-square-o"></i></span>
+            </div>
+          </div>
+        </div>
+         <div class="col-lg-3">
+          <div class="card box3">
+            <div class="card-body">
+                <h3 class="card-title text-white">Questions</h3>
+                <div class="d-inline-block count">
+                    <h2 class="text-white" th:text="${questionCount}">100</h2>
+                    
+                </div>
+                <span class="float-right display-5 opacity-5 text-white"><i class="fa fa-question"></i></span>
+            </div>
+          </div>
+        </div>
+         <div class="col-lg-3">
+          <div class="card box4">
+            <div class="card-body">
+                <h3 class="card-title text-white">Students</h3>
+                <div class="d-inline-block count">
+                    <h2 class="text-white" th:text="${studentCount}">100</h2>
+                    
+                </div>
+                <span class="float-right display-5 opacity-5 text-white"><i class="fa fa-users"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Top Performing Students</h5>
+              <div class="table-responsive">
+                <table class="table text-nowrap align-middle mb-0">
+                  <thead>
+                    <tr class="border-2 border-bottom border-primary border-0"> 
+                      <th scope="col" class="text-center">Rank</th>
+                      <th scope="col" class="text-center">Student Name</th>
+                      <th scope="col" class="text-center">Exams</th>
+                      <th scope="col" class="text-center">Average Score(%)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <tr th:each="topstudent, iterStat : ${topStudents}">
+                      <td class="text-center fw-medium" th:text="${iterStat.index + 1}"></td>
+                      <td class="text-center fw-medium" th:text="${topstudent.name}"></td>
+                      <td class="text-center fw-medium" th:text="${topstudent.examCount}"></td>
+                      <td class="text-center fw-medium" th:text="${#numbers.formatDecimal(topstudent.averageScore, 1, 1)} + '%'"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title d-flex align-items-center gap-2 mb-5 pb-3">Sessions by
+                device<span><iconify-icon icon="solar:question-circle-bold" class="fs-7 d-flex text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-success" data-bs-title="Locations"></iconify-icon></span>
+              </h5>
+              <div class="row">
+                <div class="col-4">
+                  <iconify-icon icon="solar:laptop-minimalistic-line-duotone" class="fs-7 d-flex text-primary"></iconify-icon>
+                  <span class="fs-11 mt-2 d-block text-nowrap">Computers</span>
+                  <h4 class="mb-0 mt-1">87%</h4>
+                </div>
+                <div class="col-4">
+                  <iconify-icon icon="solar:smartphone-line-duotone" class="fs-7 d-flex text-secondary"></iconify-icon>
+                  <span class="fs-11 mt-2 d-block text-nowrap">Smartphone</span>
+                  <h4 class="mb-0 mt-1">9.2%</h4>
+                </div>
+                <div class="col-4">
+                  <iconify-icon icon="solar:tablet-line-duotone" class="fs-7 d-flex text-success"></iconify-icon>
+                  <span class="fs-11 mt-2 d-block text-nowrap">Tablets</span>
+                  <h4 class="mb-0 mt-1">3.1%</h4>
+                </div>
+              </div>
+
+              <div class="vstack gap-4 mt-7 pt-2">
+                <div>
+                  <div class="hstack justify-content-between">
+                    <span class="fs-3 fw-medium">Computers</span>
+                    <h6 class="fs-3 fw-medium text-dark lh-base mb-0">87%</h6>
+                  </div>
+                  <div class="progress mt-6" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-primary" style="width: 100%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="hstack justify-content-between">
+                    <span class="fs-3 fw-medium">Smartphones</span>
+                    <h6 class="fs-3 fw-medium text-dark lh-base mb-0">9.2%</h6>
+                  </div>
+                  <div class="progress mt-6" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-secondary" style="width: 50%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="hstack justify-content-between">
+                    <span class="fs-3 fw-medium">Tablets</span>
+                    <h6 class="fs-3 fw-medium text-dark lh-base mb-0">3.1%</h6>
+                  </div>
+                  <div class="progress mt-6" role="progressbar" aria-label="Warning example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-success" style="width: 35%"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+           <div class="card-body">
+              <h5 class="card-title">Average score by subjects</h5>
+				<canvas id="scoreChart" height="200"></canvas>
+				</div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+           <div class="card-body">
+              <h5 class="card-title">Students Performance</h5>
+            <canvas id="studentChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="card">
+           <div class="card-body">
+              <h5 class="card-title">Exam counts in each month</h5>
+            <canvas id="examChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div th:replace="~{themes::footer}">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+ <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/libs/apexcharts/dist/apexcharts.min.js}"></script>
+  <script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+  <script th:src="@{/assets/js/sidebarmenu.js}"></script>
+  <script th:src="@{/assets/js/app.min.js}"></script>
+  <script th:src="@{/assets/js/dashboard.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+	<script th:inline="javascript">
+    window.onload = function () {
+        const labels = [[${labels}]];
+        const data = [[${data}]];
+
+        const ctx = document.getElementById('scoreChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Average Score',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+    }
+</script>
+  <script th:inline="javascript">
+    const labels = [[${studentNames}]];
+    const data = [[${averageScores}]];
+
+    new Chart(document.getElementById('studentChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Average Score',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+
+<script th:inline="javascript">
+    const examMonths = [[${months}]];
+    const examcounts = [[${examCounts}]];
+
+    new Chart(document.getElementById('examChart'), {
+        type: 'line',
+        data: {
+            labels: examMonths,
+            datasets: [{
+                label: 'Exam Counts',
+                data: examcounts,
+                borderColor: 'rgba(180, 0, 160, 1)',
+                backgroundColor: 'rgba(180, 0, 160, 0.2)',
+                fill: true, // set to false if you don't want shaded area under the line
+                tension: 0.3, // smooth curves
+                pointBackgroundColor: 'rgba(180, 0, 160, 1)'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+
+</html>

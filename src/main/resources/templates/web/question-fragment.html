@@ -1,0 +1,64 @@
+<div th:fragment="questionContent">
+    <form id="questionForm" class="card p-4 shadow-sm">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <input type="hidden" name="index" th:value="${index}" />
+
+        <h5 class="mb-3" th:text="'Q' + (${index} + 1) + '. ' + ${question.question_text}"></h5>
+
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="selectedOption" id="optionA" value="option_a" required>
+            <label class="form-check-label" for="optionA" th:text="${question.option_a}"></label>
+        </div>
+
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="selectedOption" id="optionB" value="option_b">
+            <label class="form-check-label" for="optionB" th:text="${question.option_b}"></label>
+        </div>
+
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="selectedOption" id="optionC" value="option_c">
+            <label class="form-check-label" for="optionC" th:text="${question.option_c}"></label>
+        </div>
+
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="radio" name="selectedOption" id="optionD" value="option_d">
+            <label class="form-check-label" for="optionD" th:text="${question.option_d}"></label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Next</button>
+    </form>
+
+    <script>
+        document.addEventListener("submit", function (e) {
+            if (e.target && e.target.id === "questionForm") {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                const csrfToken = form.querySelector('input[name="_csrf"]').value;
+
+                fetch('/exam/next', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: formData
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.text();
+                    }
+                })
+                .then(html => {
+                    if (html) {
+                        const questionArea = document.getElementById('questionArea');
+                        if (questionArea) {
+                            questionArea.innerHTML = html;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</div>

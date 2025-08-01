@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title th:text="${title}">Default Title</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
+  <link rel="stylesheet" th:href="@{/node_modules/simplebar/dist/simplebar.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   <aside th:replace="~{themes :: sidebar}">
+   	
+   </aside>
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+     <header th:replace="~{themes :: header}">
+     
+     </header>
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4" th:text="${subject.id == 0} ? 'Add Subject' : 'Edit Subject'">Add Subject</h5>
+            <div class="card">
+              <div class="card-body">
+               <form th:action="@{/subject/save}" method="post" th:object="${subject}" enctype="multipart/form-data">
+  
+			  <!-- Hidden ID field for updates; empty for adds -->
+			  <input type="hidden" th:field="*{id}" />
+			
+			  <div class="mb-3">
+			    <label for="subject_name" class="form-label">Subject Name</label>
+			    <input type="text" class="form-control" id="subject_name" th:field="*{subjectName}" aria-describedby="name_error" required>
+			    <div id="name_error" class="form-text"></div>
+			  </div>
+			
+			  <div class="mb-3">
+			    <label for="desc" class="form-label">Description</label>
+			    <textarea class="form-control" id="desc" th:field="*{desc}" required></textarea>
+			  </div>
+			  
+			  <div class="mb-3">
+			    <label for="image" class="form-label">Image</label>
+			    <input type="file" name="imageFile" class="form-control" id="image">
+			  </div>
+			  
+			  <div class="mb-3" th:if="${subject.image != null}">
+				    <input type="hidden" name="existingImage" th:value="${subject.image}">
+				    <img th:src="@{'/uploads/subjects/' + ${subject.image}}" alt="Subject Image" width="150" class="img-thumbnail">
+				</div>
+			  
+			  
+			  <div class="mb-3">
+			            <label for="status" class="form-label">Status</label>
+			            <select id="status" class="form-select" th:field="*{status}" required>
+			                <option value="1">Active</option>
+			                <option value="0">Inactive</option>
+			            </select>
+			        </div>
+			
+			  <button type="submit" class="btn btn-primary" th:text="${subject.id >0 ? 'Update Subject' : 'Add Subject'}">Submit</button>
+			</form>
+
+              </div>
+            </div>
+            
+          </div>
+        </div>
+         <div th:replace="~{themes::footer}">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+  <script th:src="@{/assets/js/sidebarmenu.js}"></script>
+  <script th:src="@{/assets/js/app.min.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js}"></script>
+</body>
+
+</html>

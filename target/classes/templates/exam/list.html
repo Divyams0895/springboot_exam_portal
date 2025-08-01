@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">Default Title</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
+    <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   <aside th:replace="~{themes :: sidebar}">
+   	
+   </aside>
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+     <header th:replace="~{themes :: header}">
+     
+     </header>
+      <div class="container-fluid">
+        <div class="row">
+            
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">All Exams</h5>
+              <div class="table-responsive">
+                <table class="table text-nowrap align-middle mb-0">
+                  <thead>
+                    <tr class="border-2 border-bottom border-primary border-0"> 
+                      <th scope="col" class="text-center">Exam Id</th>
+                      <th scope="col" class="text-center">Subject</th>
+                      <th scope="col" class="text-center">Exam Title</th>
+                      <th scope="col" class="text-center">Duration (in minutes)</th>
+                      <th scope="col" class="text-center">Status</th>
+                      <th scope="col" class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <tr th:each="exam,iterStat : ${examPage.content}">
+					    <td class="text-center" th:text="${iterStat.index + 1}"></td>
+					    <td class="text-center" th:text="${exam.subject.subjectName}"></td>
+					    <td class="text-center" th:text="${exam.title}"></td>
+					    <td class="text-center" th:text="${exam.duration}"></td>
+					     <td class="text-center fw-bold" th:text="${exam.status==true}?'Active':'Inactive'"
+					    th:classappend="${exam.status == true} ? 'text-success' : 'text-danger'"></td>
+	                      <td class="text-center fw-medium">
+	                      	<a th:href="@{'/exam/edit/' + ${exam.id}}" class="link-primary text-dark fw-medium"><i class="ti ti-pencil text-primary"></i></a>
+	                      	<a th:href="@{'/exam/delete/' + ${exam.id}}" onclick="return confirmDelete();" class="link-primary text-dark fw-medium"><i class="ti ti-trash text-danger"></i></a>
+	                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+                <nav>
+				  <ul class="pagination justify-content-center mt-3">
+				    <li class="page-item" th:classappend="${examPage.first} ? 'disabled'">
+				      <a class="page-link" th:href="@{/exam/list(page=${examPage.number - 1})}">Previous</a>
+				    </li>
+				
+				    <li class="page-item" th:each="i : ${#numbers.sequence(0, examPage.totalPages - 1)}"
+				        th:classappend="${i == examPage.number} ? 'active'">
+				      <a class="page-link" th:href="@{/exam/list(page=${i})}" th:text="${i + 1}">1</a>
+				    </li>
+				
+				    <li class="page-item" th:classappend="${examPage.last} ? 'disabled'">
+				      <a class="page-link" th:href="@{/exam/list(page=${examPage.number + 1})}">Next</a>
+				    </li>
+				  </ul>
+				</nav>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+     </div>
+       
+              <div class="row">
+
+		        <div th:replace="~{themes::footer}">
+		        
+		        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/libs/apexcharts/dist/apexcharts.min.js}"></script>
+  <script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+  <script th:src="@{/assets/js/sidebarmenu.js}"></script>
+  <script th:src="@{/assets/js/app.min.js}"></script>
+  <script th:src="@{/assets/js/dashboard.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js}"></script>
+
+	<script>
+		function confirmDelete() {
+		    return confirm("Are you sure to delete?");
+		}
+	</script>
+	
+</body>
+
+</html>

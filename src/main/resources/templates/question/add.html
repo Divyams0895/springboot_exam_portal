@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title th:text="${title}">Default Title</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/seodashlogo.png" />
+  <link rel="stylesheet" th:href="@{/node_modules/simplebar/dist/simplebar.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   <aside th:replace="~{themes :: sidebar}">
+   	
+   </aside>
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+     <header th:replace="~{themes :: header}">
+     
+     </header>
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Add Question</h5>
+            <div class="card">
+              <div class="card-body">
+               <form th:action="@{/question/save}" method="post" th:object="${question}">
+
+			    <input type="hidden" th:field="*{question_id}" />
+			
+			    <!-- Subject Dropdown -->
+			    <div class="mb-3">
+			        <label for="subject" class="form-label">Subject</label>
+			        
+			        <select class="form-control" id="subject" th:field="*{subject}" required>
+					    <option value="" disabled>Select Subject</option>
+					    <option th:each="subject : ${subjects}"
+					            th:value="${subject.id}"
+					            th:text="${subject.subjectName}">
+					    </option>
+					</select>
+			    </div>
+			
+			    <div class="mb-3">
+			        <label for="question_text" class="form-label">Question</label>
+			        <textarea class="form-control" th:field="*{question_text}" required></textarea>
+			    </div>
+			
+			    <div class="mb-3">
+			        <label class="form-label">Option A</label>
+			        <input type="text" class="form-control" th:field="*{option_a}" required />
+			    </div>
+
+			    <div class="mb-3">
+			        <label class="form-label">Option B</label>
+			        <input type="text" class="form-control" th:field="*{option_b}" required />
+			    </div>
+			
+			    <div class="mb-3">
+			        <label class="form-label">Option C</label>
+			        <input type="text" class="form-control" th:field="*{option_c}" required />
+			    </div>
+			
+			    <div class="mb-3">
+			        <label class="form-label">Option D</label>
+			        <input type="text" class="form-control" th:field="*{option_d}" required />
+			    </div>
+			
+			    <div class="mb-3">
+			        <label class="form-label">Correct Option</label>
+			        <input type="text" class="form-control" th:field="*{correct_option}" placeholder="A/B/C/D" required />
+			    </div>
+			      <div class="mb-3">
+			            <label for="difficulty" class="form-label">Difficulty Level</label>
+			            <select id="difficulty" class="form-select" th:field="*{difficultyLevel}" required>
+			                <option value="easy">Easy</option>
+			                <option value="medium">Medium</option>
+			                <option value="hard">Hard</option>
+			            </select>
+			        </div>
+			        
+			          <div class="mb-3">
+			            <label for="status" class="form-label">Status</label>
+			            <select id="status" class="form-select" th:field="*{status}" required>
+			                <option value="1">Active</option>
+			                <option value="0">Inactive</option>
+			            </select>
+			        </div>
+			
+			    <button type="submit" class="btn btn-primary" 
+			            th:text="${question.question_id >0 ? 'Update Question' : 'Add Question'}"></button>
+			</form>
+
+
+              </div>
+            </div>
+            
+          </div>
+        </div>
+         <div th:replace="~{themes::footer}">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+  <script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/libs/simplebar/dist/simplebar.js}"></script>
+  <script th:src="@{/assets/js/sidebarmenu.js}"></script>
+  <script th:src="@{/assets/js/app.min.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js}"></script>
+</body>
+
+</html>
